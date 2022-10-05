@@ -1,35 +1,37 @@
 {
     "author": {
-        "email": "nao@nekotorobot.com",
-        "name": "Naohiro Iida"
+        "email": "komiya@ichika.org",
+        "name": "Ichika"
     },
     "description": {
-        "EN": "CAM job description goes here."
+        "EN": "CAM for PCBGoGo"
     },
     "output_type": "zip",
     "outputs": [
         {
-            "format_specifier": {
-                "decimal": 3,
-                "integer": 3
-            },
-            "output_type": "drill",
+            "compress_output": true,
+            "export_cad_netlist": true,
+            "export_eda_component_attributes": true,
+            "export_eda_data": true,
+            "export_eda_footprint_names": true,
+            "export_eda_net_attributes": true,
+            "export_job_name_instead_of_product_model_name": true,
+            "export_layer_features_count": true,
+            "export_neutral_net_names": false,
+            "export_step_profile_board_cutouts": true,
+            "export_step_profile_from_board_shape": true,
+            "export_text_attributes": true,
+            "export_unique_id": true,
+            "export_unit": true,
+            "filename_prefix": "CAMOutputs/ODBFiles",
+            "generate_job_file": true,
+            "odb_format_version": "V8.1+",
+            "output_name": "pcb_v3",
+            "output_type": "odb++",
             "outputs": [
-                {
-                    "drills": {
-                        "NPTH": true,
-                        "PTH": true,
-                        "VIA": true
-                    },
-                    "filename_format": "%N.drd",
-                    "layers": {
-                        "from": 1,
-                        "to": 16
-                    },
-                    "name": "Generate drill data",
-                    "type": "excellon"
-                }
-            ]
+            ],
+            "prepend_netattributes_with_numbersign": true,
+            "use_teamhub_location": false
         },
         {
             "filename_prefix": "outputs",
@@ -50,10 +52,32 @@
                     },
                     "board_outline": false,
                     "config": {
+                        "description": "Outline",
+                        "file_function": "Other"
+                    },
+                    "filename_format": "Edge.out",
+                    "layers": [
+                        20
+                    ],
+                    "milling": false,
+                    "name": "Outline",
+                    "polarity": "positive",
+                    "type": "gerber_layer"
+                },
+                {
+                    "advanced_options": {
+                        "mirror": false,
+                        "offset_x": 0,
+                        "offset_y": 0,
+                        "rotate": false,
+                        "upside_down": false
+                    },
+                    "board_outline": false,
+                    "config": {
                         "description": "Component side",
                         "file_function": "Other"
                     },
-                    "filename_format": "%N.cmp",
+                    "filename_format": "toplayer.cmp",
                     "layers": [
                         1,
                         17,
@@ -77,7 +101,7 @@
                         "description": "Solder side",
                         "file_function": "Other"
                     },
-                    "filename_format": "%N.sol",
+                    "filename_format": "bottomlayer.sol",
                     "layers": [
                         16,
                         17,
@@ -101,9 +125,13 @@
                         "description": "Silk screen CMP",
                         "file_function": "Other"
                     },
-                    "filename_format": "%N.plc",
+                    "filename_format": "TopSilkS.plc",
                     "layers": [
-                        48
+                        25,
+                        48,
+                        200,
+                        21,
+                        23
                     ],
                     "milling": false,
                     "name": "Silk screen CMP",
@@ -123,7 +151,7 @@
                         "description": "Solder stop mask CMP",
                         "file_function": "Other"
                     },
-                    "filename_format": "%N.stc",
+                    "filename_format": "Topsolder.stc",
                     "layers": [
                         29
                     ],
@@ -145,7 +173,7 @@
                         "description": "Solder stop mask SOL",
                         "file_function": "Other"
                     },
-                    "filename_format": "%N.sts",
+                    "filename_format": "BottomSolder.sts",
                     "layers": [
                         30
                     ],
@@ -155,32 +183,70 @@
                     "type": "gerber_layer"
                 },
                 {
-                    "advanced_options": {
-                        "mirror": false,
-                        "offset_x": 0,
-                        "offset_y": 0,
-                        "rotate": false,
-                        "upside_down": false
-                    },
                     "board_outline": false,
                     "config": {
-                        "description": "Outline",
+                        "description": "Metal mask CMP",
                         "file_function": "Other"
                     },
-                    "filename_format": "%N.out",
+                    "filename_format": "TopPaste.mtc",
                     "layers": [
-                        20
+                        31
                     ],
                     "milling": false,
-                    "name": "Outline",
+                    "name": "Metal mask CMP",
                     "polarity": "positive",
                     "type": "gerber_layer"
                 }
             ],
             "version": "RS274X"
+        },
+        {
+            "extension_type": "pdf",
+            "filename_prefix": "CAMOutputs/ImageFiles",
+            "fit_to_Page": true,
+            "output_type": "image",
+            "outputs": [
+            ],
+            "page_size": "A4",
+            "pdf_filename": "%N"
+        },
+        {
+            "format_specifier": {
+                "decimal": 3,
+                "integer": 3
+            },
+            "output_type": "drill",
+            "outputs": [
+                {
+                    "drills": {
+                        "NPTH": true,
+                        "PTH": true,
+                        "VIA": true
+                    },
+                    "filename_format": "DRL.drd",
+                    "layers": {
+                        "from": 1,
+                        "to": 16
+                    },
+                    "name": "Generate drill data",
+                    "type": "excellon"
+                }
+            ]
+        },
+        {
+            "filename_prefix": "CAMOutputs/Assembly",
+            "output_type": "assembly",
+            "outputs": [
+            ]
+        },
+        {
+            "filename_prefix": "CAMOutputs/DrawingFiles",
+            "output_type": "drawing",
+            "outputs": [
+            ]
         }
     ],
-    "timestamp": "2019-03-23T22:52:21",
+    "timestamp": "2022-10-05T10:46:35",
     "type": "EAGLE CAM job",
     "units": "metric",
     "version": "8.6.1"
